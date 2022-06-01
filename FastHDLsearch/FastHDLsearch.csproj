@@ -9,20 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Everything64.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Everything64.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Everything64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Properties\App.config">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
