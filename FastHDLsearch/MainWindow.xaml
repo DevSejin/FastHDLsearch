@@ -5,18 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FastHDLsearch"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow"  SizeToContent="WidthAndHeight" Width="813" Height="459">
     <Grid>
-        <TextBox x:Name="TextboxPath" HorizontalAlignment="Left" Margin="79,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="609" TextChanged="TextboxPath_TextChanged"/>
-        <Button x:Name="BTsearch" Content="Search" HorizontalAlignment="Left" Margin="692,48,0,0" VerticalAlignment="Top" Height="24" Width="98" Click="BTsearch_Click"/>
-        <TextBlock x:Name="foundList" HorizontalAlignment="Left" Margin="22,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="267" Width="328" Background="#19000000" Text=""/>
+        <TextBox x:Name="ui_TextboxPath" HorizontalAlignment="Left" Margin="79,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="609" TextChanged="TextboxPath_TextChanged"/>
+        <Button x:Name="ui_BTsearch" Content="Search" HorizontalAlignment="Left" Margin="692,48,0,0" VerticalAlignment="Top" Height="24" Width="98" Click="BTsearch_Click"/>
+        <TextBlock x:Name="ui_foundList" HorizontalAlignment="Left" Margin="22,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="267" Width="328" Background="#19000000" Text=""/>
         <TextBlock HorizontalAlignment="Left" Margin="100,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="170" TextAlignment="Center" FontSize="18" FontWeight="Bold"><Run Text="찾은 목"/><Run Language="ko-kr" Text="록"/></TextBlock>
         <TextBlock HorizontalAlignment="Left" Margin="486,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="170" TextAlignment="Center" FontSize="18" FontWeight="Bold"><Run Text="받아야될 목"/><Run Language="ko-kr" Text="록"/></TextBlock>
-        <TextBox x:Name="NeedList" HorizontalAlignment="Left" Margin="400,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="341" Height="267" IsReadOnly="True" Opacity="1" Background="#19000000"/>
-        <Button x:Name="BTcopyit" Content="Copy" HorizontalAlignment="Left" Margin="674,355,0,0" VerticalAlignment="Top" Height="27" Width="58" Click="BTcopyit_Click"/>
-        <TextBox x:Name="TextboxSearch" HorizontalAlignment="Left" Margin="11,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="677" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" ScrollViewer.CanContentScroll="True" HorizontalScrollBarVisibility="Disabled" Height="43"/>
+        <TextBox x:Name="ui_NeedList" HorizontalAlignment="Left" Margin="400,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="341" Height="267" IsReadOnly="True" Opacity="1" Background="#19000000"/>
+        <Button x:Name="ui_BTcopyit" Content="Copy" HorizontalAlignment="Left" Margin="674,355,0,0" VerticalAlignment="Top" Height="27" Width="58" Click="BTcopyit_Click"/>
+        <TextBox x:Name="ui_TextboxSearch" HorizontalAlignment="Left" Margin="11,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="677" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" ScrollViewer.CanContentScroll="True" HorizontalScrollBarVisibility="Disabled" Height="43"/>
         <TextBlock HorizontalAlignment="Left" Height="21" Margin="10,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64" TextAlignment="Center" FontSize="16"><Run Language="ko-kr" Text="Path"/></TextBlock>
-        <Button x:Name="BTpath" Content="Browse" HorizontalAlignment="Left" Margin="693,8,0,0" VerticalAlignment="Top" Height="24" Width="98" Click="BTpath_Click"/>
+        <Button x:Name="ui_BTpath" Content="Browse" HorizontalAlignment="Left" Margin="693,8,15,0" VerticalAlignment="Top" Height="24" Width="98" Click="BTpath_Click"/>
+        <CheckBox x:Name="ui_isSearchWrapping" Content="검색시 각 항목을 ()로 감싸줍니다." HorizontalAlignment="Left" Margin="22,409,0,15" VerticalAlignment="Top" Click="_isSearchWrapping_Clicked"/>
 
     </Grid>
 </Window>

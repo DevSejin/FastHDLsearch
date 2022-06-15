@@ -191,6 +191,15 @@ namespace FastHDLsearch
         #endregion
 
         private BackgroundWorker myThread;
+        private struct customWorkerArgument
+        {
+            public bool isWrapping { get; set; } = false;
+            public int test { get; set; } = 0;
+
+            public customWorkerArgument()
+            {
+            }
+        }
         string searchText;
         //config
         string searchPath = "";
@@ -199,8 +208,9 @@ namespace FastHDLsearch
         public MainWindow()
         {
             InitializeComponent();
-            TextboxPath.Text = config.AppSettings.Settings["Path"].Value;
-
+            ui_TextboxPath.Text = config.AppSettings.Settings["Path"].Value;
+            ui_isSearchWrapping.IsChecked = config.AppSettings.Settings["searchwrapping"].Value == "true";
+            
         }
 
         protected override void OnInitialized(EventArgs e)
@@ -230,9 +240,9 @@ namespace FastHDLsearch
             myThread.RunWorkerCompleted += myThread_RunWorkerCompleted;
         }
 
-        private void myThread_DoWork(object sender, DoWorkEventArgs e)
+        private void myThread_DoWork(object? sender, DoWorkEventArgs e)
         {
-
+            customWorkerArgument arg = e.Argument as customWorkerArgument? ?? default;
             // request name and size
             Everything_SetRequestFlags(EVERYTHING_REQUEST_FILE_NAME | EVERYTHING_REQUEST_PATH | EVERYTHING_REQUEST_DATE_MODIFIED | EVERYTHING_REQUEST_SIZE);
             Everything_SetSort(13);
@@ -248,8 +258,17 @@ namespace FastHDLsearch
                 // cancellation
                 if (myThread.CancellationPending) { e.Cancel = true; return; }
 
-                string findwithBracket = "(" + s + ")";
-                Everything_SetSearchW(findwithBracket + " " + searchPath);
+                string finalSearchText;
+                if (arg.isWrapping)
+                {
+                    finalSearchText = "(" + s + ")";
+                }
+                else
+                {
+                    finalSearchText = s;
+                }
+                
+                Everything_SetSearchW(finalSearchText + " " + searchPath);
                 Everything_QueryW(true);
 
                 //Debug.Write(s);
@@ -261,7 +280,7 @@ namespace FastHDLsearch
                     this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
             (ThreadStart)delegate ()
             {
-                foundList.Text += s + " is exist. count: " + resultCount + "\n";
+                ui_foundList.Text += s + " is exist. count: " + resultCount + "\n";
             }
             );
 
@@ -273,7 +292,7 @@ namespace FastHDLsearch
                     this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
             (ThreadStart)delegate ()
             {
-                NeedList.Text += s + ", ";
+                ui_NeedList.Text += s + ", ";
             }
             );
 
@@ -289,14 +308,14 @@ namespace FastHDLsearch
             this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                         (ThreadStart)delegate ()
                         {
-                            NeedList.Text = NeedList.Text.TrimEnd(',', ' ');
+                            ui_NeedList.Text = ui_NeedList.Text.TrimEnd(',', ' ');
                         }
                         );
         }
 
         //작업완료
 
-        private void myThread_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void myThread_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled) MessageBox.Show("작업 취소...");
 
@@ -304,8 +323,8 @@ namespace FastHDLsearch
 
             else
             {
-                BTsearch.Content = "Search";
-                BTsearch.IsEnabled = true;
+                ui_BTsearch.Content = "Search";
+                ui_BTsearch.IsEnabled = true;
                 MessageBox.Show("작업 완료!!");
             }
 
@@ -315,15 +334,19 @@ namespace FastHDLsearch
         private void BTsearch_Click(object sender, RoutedEventArgs e)
         {
             //Debug.WriteLine("Search button clicked");
-            BTsearch.Content = "...";
-            BTsearch.IsEnabled = false;
+            ui_BTsearch.Content = "...";
+            ui_BTsearch.IsEnabled = false;
             //initializing
-            foundList.Text = string.Empty;
-            NeedList.Text = string.Empty;
-            searchPath = TextboxPath.Text;
-            searchText = TextboxSearch.Text;
+            ui_foundList.Text = string.Empty;
+            ui_NeedList.Text = string.Empty;
+            searchPath = ui_TextboxPath.Text;
+            searchText = ui_TextboxSearch.Text;
 
-            myThread.RunWorkerAsync();
+            customWorkerArgument arg = new customWorkerArgument();
+            arg.isWrapping = ui_isSearchWrapping.IsChecked ?? false;
+            arg.test = 10;
+            
+            myThread.RunWorkerAsync(arg);
 
             StringBuilder sb = new StringBuilder();
 
@@ -340,15 +363,15 @@ namespace FastHDLsearch
 
         private void BTcopyit_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(NeedList.Text);
-            BTcopyit.Content = "copied !";
+            Clipboard.SetText(ui_NeedList.Text);
+            ui_BTcopyit.Content = "copied !";
             DispatcherTimer timer = new DispatcherTimer();    //객체생성
 
             timer.Interval = TimeSpan.FromMilliseconds(1000);    //시간간격 설정
             timer.Tick += new EventHandler(
-                delegate (object sender, EventArgs e)
+                delegate (object? sender, EventArgs e)
                 {
-                    BTcopyit.Content = "copy";
+                    ui_BTcopyit.Content = "copy";
                     timer.Stop();
                 }
             );          //이벤트 추가
@@ -367,7 +390,7 @@ namespace FastHDLsearch
             dialog.IsFolderPicker = true;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                TextboxPath.Text = dialog.FileName; // 테스트용, 폴더 선택이 완료되면 선택된 폴더를 label에 출력
+                ui_TextboxPath.Text = dialog.FileName; // 테스트용, 폴더 선택이 완료되면 선택된 폴더를 label에 출력
             }
 
 
@@ -375,7 +398,15 @@ namespace FastHDLsearch
 
         private void TextboxPath_TextChanged(object sender, TextChangedEventArgs e)
         {
-            config.AppSettings.Settings["path"].Value = TextboxPath.Text;
+            config.AppSettings.Settings["path"].Value = ui_TextboxPath.Text;
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
+        }
+
+
+        private void _isSearchWrapping_Clicked(object sender, RoutedEventArgs e)
+        {
+            config.AppSettings.Settings["searchwrapping"].Value = ui_isSearchWrapping.IsChecked.ToString()?.ToLower();
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
         }
