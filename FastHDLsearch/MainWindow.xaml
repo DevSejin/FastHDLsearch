@@ -8,13 +8,13 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TextBox x:Name="TextboxPath" HorizontalAlignment="Left" Margin="79,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="609" TextChanged="TextboxPath_TextChanged"/>
-        <Button x:Name="BTsearch" Content="Search" HorizontalAlignment="Left" Margin="693,36,0,0" VerticalAlignment="Top" Height="24" Width="98" Click="BTsearch_Click"/>
-        <TextBlock x:Name="foundList" HorizontalAlignment="Left" Margin="22,101,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="291" Width="328" Background="#19000000" Text=""/>
-        <TextBlock HorizontalAlignment="Left" Margin="101,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="170" TextAlignment="Center" FontSize="18" FontWeight="Bold"><Run Text="찾은 목"/><Run Language="ko-kr" Text="록"/></TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="486,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="170" TextAlignment="Center" FontSize="18" FontWeight="Bold"><Run Text="받아야될 목"/><Run Language="ko-kr" Text="록"/></TextBlock>
-        <TextBox x:Name="NeedList" HorizontalAlignment="Left" Margin="400,101,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="341" Height="291" IsReadOnly="True" Opacity="1" Background="#19000000"/>
+        <Button x:Name="BTsearch" Content="Search" HorizontalAlignment="Left" Margin="692,48,0,0" VerticalAlignment="Top" Height="24" Width="98" Click="BTsearch_Click"/>
+        <TextBlock x:Name="foundList" HorizontalAlignment="Left" Margin="22,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="267" Width="328" Background="#19000000" Text=""/>
+        <TextBlock HorizontalAlignment="Left" Margin="100,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="170" TextAlignment="Center" FontSize="18" FontWeight="Bold"><Run Text="찾은 목"/><Run Language="ko-kr" Text="록"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="486,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="170" TextAlignment="Center" FontSize="18" FontWeight="Bold"><Run Text="받아야될 목"/><Run Language="ko-kr" Text="록"/></TextBlock>
+        <TextBox x:Name="NeedList" HorizontalAlignment="Left" Margin="400,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="341" Height="267" IsReadOnly="True" Opacity="1" Background="#19000000"/>
         <Button x:Name="BTcopyit" Content="Copy" HorizontalAlignment="Left" Margin="674,355,0,0" VerticalAlignment="Top" Height="27" Width="58" Click="BTcopyit_Click"/>
-        <TextBox x:Name="TextboxSearch" HorizontalAlignment="Left" Margin="11,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="677" KeyDown="TextBox_KeyDown"/>
+        <TextBox x:Name="TextboxSearch" HorizontalAlignment="Left" Margin="11,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="677" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" ScrollViewer.CanContentScroll="True" HorizontalScrollBarVisibility="Disabled" Height="43"/>
         <TextBlock HorizontalAlignment="Left" Height="21" Margin="10,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64" TextAlignment="Center" FontSize="16"><Run Language="ko-kr" Text="Path"/></TextBlock>
         <Button x:Name="BTpath" Content="Browse" HorizontalAlignment="Left" Margin="693,8,0,0" VerticalAlignment="Top" Height="24" Width="98" Click="BTpath_Click"/>
 
