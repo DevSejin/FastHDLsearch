@@ -190,9 +190,14 @@ namespace FastHDLsearch
 
         #endregion
 
-        private BackgroundWorker myThread;
+        private BackgroundWorker myThread = new BackgroundWorker()
+        {
+            WorkerReportsProgress = true,
+            WorkerSupportsCancellation = true
+        };
         private struct customWorkerArgument
         {
+
             public bool isWrapping { get; set; } = false;
             public int test { get; set; } = 0;
 
@@ -200,7 +205,7 @@ namespace FastHDLsearch
             {
             }
         }
-        string searchText;
+        string searchText = "";
         //config
         string searchPath = "";
         Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -220,11 +225,8 @@ namespace FastHDLsearch
             //백그라운드 워커 초기화
             //작업의 진행율이 바뀔때 ProgressChanged 이벤트 발생여부
             //작업취소 가능여부 true로 설정
-            myThread = new BackgroundWorker()
-            {
-                WorkerReportsProgress = true,
-                WorkerSupportsCancellation = true
-            };
+            //초기화 전역으로 이동
+
 
             //백그라운드에서 실행될 콜백 이벤트 생성
             //For the performing operation in the background.   
