@@ -18,6 +18,8 @@
         <TextBlock HorizontalAlignment="Left" Height="21" Margin="10,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64" TextAlignment="Center" FontSize="16"><Run Language="ko-kr" Text="Path"/></TextBlock>
         <Button x:Name="ui_BTpath" Content="Browse" HorizontalAlignment="Left" Margin="693,8,15,0" VerticalAlignment="Top" Height="24" Width="98" Click="BTpath_Click"/>
         <CheckBox x:Name="ui_isSearchWrapping" Content="검색시 각 항목을 ()로 감싸줍니다." HorizontalAlignment="Left" Margin="22,409,0,15" VerticalAlignment="Top" Click="_isSearchWrapping_Clicked"/>
+        <Button x:Name="ui_Cancell" Content="Cancell" HorizontalAlignment="Left" Margin="692,82,0,0" VerticalAlignment="Top" Height="24" Width="98" Click="BTcancell_Click"/>
+        <TextBlock x:Name="ui_status" HorizontalAlignment="Left" Margin="571,408,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" TextAlignment="Right" FontWeight="Normal" Foreground="#FF5A2CF0"/>
 
     </Grid>
 </Window>

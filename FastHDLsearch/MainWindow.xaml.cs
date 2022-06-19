@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using System.Windows.Media;
 
 namespace FastHDLsearch
 {
@@ -206,6 +207,7 @@ namespace FastHDLsearch
             }
         }
         string searchText = "";
+
         //config
         string searchPath = "";
         Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -233,13 +235,20 @@ namespace FastHDLsearch
 
             //해야할 작업을 실행할 메소드 정의
             myThread.DoWork += myThread_DoWork;
-
             //UI쪽에 진행사항을 보여주기 위해
             //WorkerReportsProgress 속성값이 true 일때만 이벤트 발생
             //myThread.ProgressChanged += myThread_ProgressChanged;
-
             //작업이 완료되었을 때 실행할 콜백메소드 정의  
             myThread.RunWorkerCompleted += myThread_RunWorkerCompleted;
+            //작업이 중단되었을때 실행할 메소드
+            myThread.Disposed += MyThread_Disposed;
+
+        }
+
+        private void MyThread_Disposed(object? sender, EventArgs e)
+        {
+
+            throw new NotImplementedException();
         }
 
         private void myThread_DoWork(object? sender, DoWorkEventArgs e)
@@ -315,20 +324,28 @@ namespace FastHDLsearch
                         );
         }
 
-        //작업완료
+        private SolidColorBrush BrushFromColorCode(string colorCode)
+        {
+            SolidColorBrush colorBrush = new SolidColorBrush();
+            colorBrush.Color = (Color)ColorConverter.ConvertFromString(colorCode);
+            return colorBrush;
+        }
 
+        //작업완료
         private void myThread_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
-            if (e.Cancelled) MessageBox.Show("작업 취소...");
+            if (e.Cancelled) { ui_status.Text = "작업 취소..."; ui_status.Foreground = BrushFromColorCode("#E69705"); }
 
-            else if (e.Error != null) MessageBox.Show("에러발생..." + e.Error);
+            else if (e.Error != null) { ui_status.Text = "에러발생..."; ui_status.Foreground = BrushFromColorCode("#D92B04"); }
 
             else
             {
-                ui_BTsearch.Content = "Search";
-                ui_BTsearch.IsEnabled = true;
-                MessageBox.Show("작업 완료!!");
+                ui_status.Text = "작업 완료";
+                ui_status.Foreground = BrushFromColorCode("#038C73");
             }
+            
+            ui_BTsearch.Content = "Search";
+            ui_BTsearch.IsEnabled = true;
 
         }
 
@@ -338,6 +355,9 @@ namespace FastHDLsearch
             //Debug.WriteLine("Search button clicked");
             ui_BTsearch.Content = "...";
             ui_BTsearch.IsEnabled = false;
+            ui_status.Text = "작업중...";
+            ui_status.Foreground = BrushFromColorCode("#0487D9");
+
             //initializing
             ui_foundList.Text = string.Empty;
             ui_NeedList.Text = string.Empty;
@@ -355,6 +375,10 @@ namespace FastHDLsearch
             
         }
 
+        private void BTcancell_Click(object sender, RoutedEventArgs e)
+        {
+            myThread.CancelAsync();
+        }
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

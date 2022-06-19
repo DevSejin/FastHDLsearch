@@ -6,6 +6,8 @@
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 		<StartupObject>FastHDLsearch.App</StartupObject>
+		<Version>0.2</Version>
+		<SignAssembly>False</SignAssembly>
 	</PropertyGroup>
 
 	<ItemGroup>
