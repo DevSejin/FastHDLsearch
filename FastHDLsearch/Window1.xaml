@@ -68,7 +68,7 @@
         <!--  TabControl Style  -->
         <Style x:Key="TabControlStyle" TargetType="TabControl">
             <Setter Property="Background" Value="{DynamicResource SecondaryBlueColor}"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderThickness" Value="0.5,0,0,0"/>
             <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBlueColor}"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="Margin" Value="30"/>
@@ -84,7 +84,7 @@
                                       Background="Transparent"
                                       IsItemsHost="True"/>
                             <Border Grid.Row="1"
-                                    CornerRadius="5"
+                                    CornerRadius="0"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     Background="{TemplateBinding Background}">
@@ -112,11 +112,12 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
-                                CornerRadius="5,0,0,5"
+                                CornerRadius="0"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="Black"
-                                Margin="0">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                Margin="0"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
 
                     </ControlTemplate>
@@ -124,7 +125,7 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="{DynamicResource PrimaryGrayColor}"/>
+                    <Setter Property="Background" Value="CornflowerBlue"/>
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Background" Value="{DynamicResource PrimaryBlueColor}"/>
@@ -134,7 +135,7 @@
         <!--  tabbutton Style  -->
 
         <!--  windowsbutton Style  -->
-        <Style x:Key="Windowsbutton" TargetType="{x:Type Button}">
+        <Style x:Key="SearchButton" TargetType="{x:Type Button}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Background" Value="{DynamicResource PrimaryBlueColor}"/>
@@ -158,7 +159,7 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Red"/>
+                    <Setter Property="Background" Value="CornflowerBlue"/>
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Background" Value="{DynamicResource PrimaryBlueColor}"/>
@@ -217,7 +218,7 @@
                 Background="{DynamicResource PrimaryTextColor}"/>
 
         <!--  TabMenus  -->
-        <Grid Margin="10,10,0,0" Grid.Column="0">
+        <Grid Margin="0" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
@@ -225,8 +226,8 @@
             </Grid.RowDefinitions>
 
             <Border Grid.RowSpan="3"
-                    CornerRadius="10,0,0,10"
-                    BorderThickness="0.5"
+                    CornerRadius="0"
+                    BorderThickness="0"
                     BorderBrush="Black"/>
             <!--  Button Left  -->
             <Border Grid.Row="0"
@@ -236,45 +237,42 @@
 
 
                 <Button x:Name="xn_tabbutton1"
-                        FontSize="14"
                         Content="Settings"
+                        FontSize="14"
                         Click="Button_Click"
+                        Padding="10,0,0,0"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Left"
                         Command="{Binding TabButtonCommand}"
                         CommandParameter="0"
                         Style="{DynamicResource TabButtonStyle}"/>
 
             </Border>
 
-            <Border Grid.Row="0"
-                    Grid.RowSpan="4"
-                    Height="30"
-                    BorderBrush="Black"
-                    BorderThickness="0,0,0.5,0"
-                    Background="{x:Null}"/>
+
 
             <!--  Button Middle  -->
             <Border Grid.Row="1"
                     BorderBrush="Gray"
+                    Margin="0,0,0,0"
                     BorderThickness="0"
-                    CornerRadius="6">
+                    CornerRadius="0">
 
                 <Button x:Name="xn_tabbutton2"
-                        FontSize="16"
+                        FontSize="14"
                         Content="Main"
+                        Padding="10,0,0,0"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Left"
                         Click="Button_Click"
                         Command="{Binding TabButtonCommand}"
                         CommandParameter="1"
-                        IsEnabled="False"
+                        IsEnabled="True"
                         Style="{DynamicResource TabButtonStyle}"/>
 
             </Border>
 
-            <Border Grid.Column="2"
-                    Grid.RowSpan="4"
-                    Height="30"
-                    BorderBrush="Black"
-                    BorderThickness="0.5,0,0,0"
-                    Background="{x:Null}"/>
+
 
             <!--  button Right  -->
             <Border Grid.Row="2"
@@ -285,6 +283,9 @@
                 <Button x:Name="xn_tabbutton3"
                         FontSize="14"
                         Content="etc"
+                        Padding="10,0,0,0"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Left"
                         Click="Button_Click"
                         Command="{Binding TabButtonCommand}"
                         CommandParameter="2"
@@ -309,7 +310,7 @@
                         Style="{DynamicResource TabControlStyle}"
                         Grid.ColumnSpan="3"
                         SelectedIndex="{Binding SelectedIndex}"
-                        Margin="0,10,10,10"
+                        Margin="0"
                         SelectionChanged="xn_TabControl_SelectionChanged">
                 <TabItem Header="" Style="{DynamicResource TabItemStyle}">
                     <Grid>
@@ -347,29 +348,53 @@
                         <Button x:Name="xn_BTsearch"
                                 Grid.Row="0"
                                 Grid.Column="2"
-                                Margin="15"
+                                Margin="10"
                                 Content="Search!"
                                 FontFamily="Poppins"
                                 FontWeight="Regular"
-                                Style="{DynamicResource Windowsbutton}"/>
+                                Style="{DynamicResource SearchButton}"/>
 
-                        <StackPanel Orientation="Vertical"
-                                    Grid.Row="1"
-                                    Grid.Column="0">
-
-                            <TextBlock Width="170"
-                                       Height="33"
+                        <Grid Grid.Row="1" Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0"
                                        FontSize="18"
                                        FontWeight="Bold"
+                                       Foreground="Black"
                                        TextAlignment="Center"
-                                       Text="찾은 목록"/>
+                                       VerticalAlignment="Center"
+                                       Text="발견 목록"/>
                             <TextBlock x:Name="xn_foundList"
+                                       Grid.Row="1"
                                        Margin="10"
                                        Background="#19000000"
                                        Text=""
                                        TextWrapping="Wrap"/>
+                        </Grid>
 
-                        </StackPanel>
+
+                        <Grid Grid.Row="1" Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0"
+                                       FontSize="18"
+                                       FontWeight="Bold"
+                                       Foreground="Black"
+                                       TextAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="누락 목록"/>
+                            <TextBox x:Name="xn_NeedList"
+                                     Grid.Row="1"
+                                     Margin="10"
+                                     Background="#19000000"
+                                     IsReadOnly="True"
+                                     Opacity="1"
+                                     TextWrapping="Wrap"/>
+                        </Grid>
 
                     </Grid>
                 </TabItem>
