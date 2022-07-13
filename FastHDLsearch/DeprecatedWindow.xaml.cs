@@ -1,35 +1,25 @@
-﻿using FastHDLsearch.ViewModels;
-using Microsoft.WindowsAPICodePack.Dialogs;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel;
+using System.Configuration;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Configuration;
 using System.Windows.Threading;
-using System.Threading;
-using System.Runtime.InteropServices;
+using System.Windows.Media;
 
 namespace FastHDLsearch
 {
     /// <summary>
-    /// Window1.xaml에 대한 상호 작용 논리
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DeprecatedWindow : Window
     {
-        Button[] tabbuttons;
-
         #region EVERYTHING_API
 
         const int EVERYTHING_OK = 0;
@@ -201,15 +191,6 @@ namespace FastHDLsearch
 
         #endregion
 
-        public MainWindow()
-        {
-            InitializeComponent();
-            xn_TextboxPath.Text = config.AppSettings.Settings["Path"].Value;
-            xn_isSearchWrapping.IsChecked = config.AppSettings.Settings["searchwrapping"].Value == "true";
-            DataContext = new MainViewModel();
-            tabbuttons = new Button[] { xn_tabbutton1, xn_tabbutton2, xn_tabbutton3 };
-        }
-
         private BackgroundWorker myThread = new BackgroundWorker()
         {
             WorkerReportsProgress = true,
@@ -231,7 +212,13 @@ namespace FastHDLsearch
         string searchPath = "";
         Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-
+        public DeprecatedWindow()
+        {
+            InitializeComponent();
+            ui_TextboxPath.Text = config.AppSettings.Settings["Path"].Value;
+            ui_isSearchWrapping.IsChecked = config.AppSettings.Settings["searchwrapping"].Value == "true";
+            
+        }
 
         protected override void OnInitialized(EventArgs e)
         {
@@ -291,7 +278,7 @@ namespace FastHDLsearch
                 {
                     finalSearchText = s;
                 }
-
+                
                 Everything_SetSearchW(finalSearchText + " " + searchPath);
                 Everything_QueryW(true);
 
@@ -304,7 +291,7 @@ namespace FastHDLsearch
                     this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
             (ThreadStart)delegate ()
             {
-                xn_foundList.Text += s + " is exist. count: " + resultCount + "\n";
+                ui_foundList.Text += s + " is exist. count: " + resultCount + "\n";
             }
             );
 
@@ -316,7 +303,7 @@ namespace FastHDLsearch
                     this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
             (ThreadStart)delegate ()
             {
-                xn_NeedList.Text += s + ", ";
+                ui_NeedList.Text += s + ", ";
             }
             );
 
@@ -332,7 +319,7 @@ namespace FastHDLsearch
             this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                         (ThreadStart)delegate ()
                         {
-                            xn_NeedList.Text = xn_NeedList.Text.TrimEnd(',', ' ');
+                            ui_NeedList.Text = ui_NeedList.Text.TrimEnd(',', ' ');
                         }
                         );
         }
@@ -347,18 +334,18 @@ namespace FastHDLsearch
         //작업완료
         private void myThread_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
-            if (e.Cancelled) { xn_status.Text = "작업 취소..."; xn_status.Foreground = BrushFromColorCode("#E69705"); }
+            if (e.Cancelled) { ui_status.Text = "작업 취소..."; ui_status.Foreground = BrushFromColorCode("#E69705"); }
 
-            else if (e.Error != null) { xn_status.Text = "에러발생..."; xn_status.Foreground = BrushFromColorCode("#D92B04"); }
+            else if (e.Error != null) { ui_status.Text = "에러발생..."; ui_status.Foreground = BrushFromColorCode("#D92B04"); }
 
             else
             {
-                xn_status.Text = "작업 완료";
-                xn_status.Foreground = BrushFromColorCode("#038C73");
+                ui_status.Text = "작업 완료";
+                ui_status.Foreground = BrushFromColorCode("#038C73");
             }
-
-            xn_BTsearch.Content = "Search";
-            xn_BTsearch.IsEnabled = true;
+            
+            ui_BTsearch.Content = "Search";
+            ui_BTsearch.IsEnabled = true;
 
         }
 
@@ -366,26 +353,26 @@ namespace FastHDLsearch
         private void BTsearch_Click(object sender, RoutedEventArgs e)
         {
             //Debug.WriteLine("Search button clicked");
-            xn_BTsearch.Content = "...";
-            xn_BTsearch.IsEnabled = false;
-            xn_status.Text = "작업중...";
-            xn_status.Foreground = BrushFromColorCode("#0487D9");
+            ui_BTsearch.Content = "...";
+            ui_BTsearch.IsEnabled = false;
+            ui_status.Text = "작업중...";
+            ui_status.Foreground = BrushFromColorCode("#0487D9");
 
             //initializing
-            xn_foundList.Text = string.Empty;
-            xn_NeedList.Text = string.Empty;
-            searchPath = xn_TextboxPath.Text;
-            searchText = xn_TextboxSearch.Text;
+            ui_foundList.Text = string.Empty;
+            ui_NeedList.Text = string.Empty;
+            searchPath = ui_TextboxPath.Text;
+            searchText = ui_TextboxSearch.Text;
 
             customWorkerArgument arg = new customWorkerArgument();
-            arg.isWrapping = xn_isSearchWrapping.IsChecked ?? false;
+            arg.isWrapping = ui_isSearchWrapping.IsChecked ?? false;
             arg.test = 10;
-
+            
             myThread.RunWorkerAsync(arg);
 
             StringBuilder sb = new StringBuilder();
 
-
+            
         }
 
         private void BTcancell_Click(object sender, RoutedEventArgs e)
@@ -402,15 +389,15 @@ namespace FastHDLsearch
 
         private void BTcopyit_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(xn_NeedList.Text);
-            xn_BTcopyit.Content = "copied !";
+            Clipboard.SetText(ui_NeedList.Text);
+            ui_BTcopyit.Content = "copied !";
             DispatcherTimer timer = new DispatcherTimer();    //객체생성
 
             timer.Interval = TimeSpan.FromMilliseconds(1000);    //시간간격 설정
             timer.Tick += new EventHandler(
                 delegate (object? sender, EventArgs e)
                 {
-                    xn_BTcopyit.Content = "copy";
+                    ui_BTcopyit.Content = "copy";
                     timer.Stop();
                 }
             );          //이벤트 추가
@@ -429,7 +416,7 @@ namespace FastHDLsearch
             dialog.IsFolderPicker = true;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                xn_TextboxPath.Text = dialog.FileName; // 테스트용, 폴더 선택이 완료되면 선택된 폴더를 label에 출력
+                ui_TextboxPath.Text = dialog.FileName; // 테스트용, 폴더 선택이 완료되면 선택된 폴더를 label에 출력
             }
 
 
@@ -437,39 +424,17 @@ namespace FastHDLsearch
 
         private void TextboxPath_TextChanged(object sender, TextChangedEventArgs e)
         {
-            config.AppSettings.Settings["path"].Value = xn_TextboxPath.Text;
+            config.AppSettings.Settings["path"].Value = ui_TextboxPath.Text;
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
         }
 
 
-        private void isSearchWrapping_Clicked(object sender, RoutedEventArgs e)
+        private void _isSearchWrapping_Clicked(object sender, RoutedEventArgs e)
         {
-            config.AppSettings.Settings["searchwrapping"].Value = xn_isSearchWrapping.IsChecked.ToString()?.ToLower();
+            config.AppSettings.Settings["searchwrapping"].Value = ui_isSearchWrapping.IsChecked.ToString()?.ToLower();
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            
-            //xn_TabControl.SelectedIndex = 2;
-        }
-
-        private void xn_TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            foreach (var btit in tabbuttons.Select((value, index) => new { value, index }))
-            {
-                if (btit.index == xn_TabControl.SelectedIndex)
-                {
-                    btit.value.IsEnabled = false;
-                }
-                else
-                {
-                    btit.value.IsEnabled = true;
-                }
-                
-            }
         }
     }
 }
