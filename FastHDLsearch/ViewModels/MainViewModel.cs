@@ -17,7 +17,7 @@ namespace FastHDLsearch.ViewModels
 
         //public RelayCommand MessageBoxCommand { get; private set; }
         public RelayCommand TabButtonCommand { get; set; }
-        private int _selectedIndex = 1;
+        private int _selectedIndex = 0;
         public int SelectedIndex
         {
             get

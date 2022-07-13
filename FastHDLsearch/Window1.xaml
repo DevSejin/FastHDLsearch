@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:FastHDLsearch"
         mc:Ignorable="d"
         Title=""
@@ -68,7 +69,7 @@
         <!--  TabControl Style  -->
         <Style x:Key="TabControlStyle" TargetType="TabControl">
             <Setter Property="Background" Value="{DynamicResource SecondaryBlueColor}"/>
-            <Setter Property="BorderThickness" Value="0.5,0,0,0"/>
+            <Setter Property="BorderThickness" Value="0.5"/>
             <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBlueColor}"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="Margin" Value="30"/>
@@ -77,14 +78,14 @@
                     <ControlTemplate TargetType="TabControl">
                         <Grid SnapsToDevicePixels="True">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="0"/>
+                                <RowDefinition d:Height="10" Height="0"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <TabPanel Grid.Row="0"
                                       Background="Transparent"
                                       IsItemsHost="True"/>
                             <Border Grid.Row="1"
-                                    CornerRadius="0"
+                                    CornerRadius="10"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     Background="{TemplateBinding Background}">
@@ -112,7 +113,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
-                                CornerRadius="0"
+                                CornerRadius="6"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="Black"
                                 Margin="0"
@@ -126,15 +127,17 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="CornflowerBlue"/>
+
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Background" Value="{DynamicResource PrimaryBlueColor}"/>
+                    <Setter Property="BorderThickness" Value="0.2"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
         <!--  tabbutton Style  -->
 
-        <!--  windowsbutton Style  -->
+        <!--  Searchbutton Style  -->
         <Style x:Key="SearchButton" TargetType="{x:Type Button}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
             <Setter Property="Foreground" Value="Black"/>
@@ -166,17 +169,17 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <!--  windowsbutton Style  -->
+        <!--  Searchbutton Style  -->
 
-
-        <!--  Minimizesbutton Style  -->
-        <Style x:Key="Minimizesbutton" TargetType="{x:Type Button}">
+        <!--  Cancelbutton Style  -->
+        <Style x:Key="CancelButton" TargetType="{x:Type Button}">
+            <Setter Property="Content" Value="{iconPacks:Material Kind=Close, Width=25, Height=25}"/>
             <Setter Property="SnapsToDevicePixels" Value="true"/>
             <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="Background" Value="Gray"/>
-            <Setter Property="FontFamily" Value="Helvetica"/>
-            <Setter Property="FontWeight" Value="Light"/>
-            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="{DynamicResource PrimaryBlueColor}"/>
+            <Setter Property="FontFamily" Value="Resources/Fonts/Dosis.ttf #Dosis"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderThickness" Value="0.5"/>
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -194,14 +197,61 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Background" Value="DarkOrange"/>
+                    <Setter Property="Content" Value="Cancel"/>
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Background" Value="{DynamicResource PrimaryBlueColor}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <!--  Minimizesbutton Style  -->
+        <!--  Cancelbutton Style  -->
+
+        <!--  SettingsElement Border Style  -->
+        <Style x:Key="SettingsElementStyle" TargetType="Border">
+            <Setter Property="Height" Value="90"/>
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="0,10,0,10"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#19D3D3D3"/>
+                    <Setter Property="Background" Value="#19696969"/>
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+        <!--  SettingsElement Border Style  -->
+
+        <Style x:Key="styleCustomCheckBox" TargetType="{x:Type CheckBox}">
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconMaterial x:Name="imageCheckBox"
+                                                        Kind="CheckboxBlankOutline"
+                                                        Width="15"
+                                                        Height="15"
+                                                        Margin="5"
+                                                        Background="Transparent"/>
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="imageCheckBox" Property="Background" Value="LightGray"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="imageCheckBox" Property="Kind" Value="CheckboxMarkedOutline"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
 
     </Window.Resources>
 
@@ -213,85 +263,107 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.RowSpan="2"
-                CornerRadius="10"
-                Background="{DynamicResource PrimaryTextColor}"/>
 
-        <!--  TabMenus  -->
-        <Grid Margin="0" Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-            </Grid.RowDefinitions>
 
-            <Border Grid.RowSpan="3"
-                    CornerRadius="0"
-                    BorderThickness="0"
-                    BorderBrush="Black"/>
-            <!--  Button Left  -->
+        <!--  Menu Sector  -->
+        <Grid Margin="5,10,0,10"
+              Grid.Column="0"
+              Cursor="Hand">
+
+            <!--  TabMenus  -->
             <Border Grid.Row="0"
                     BorderBrush="Gray"
                     BorderThickness="0"
-                    CornerRadius="6">
+                    Background="LightGray"
+                    CornerRadius="7"
+                    VerticalAlignment="Top">
+
+                <!--  Tab Buttons  -->
+                <StackPanel>
+
+                    <!--  Button 1  -->
+                    <Button x:Name="xn_tabbutton1"
+                            Content="Main"
+                            FontSize="14"
+                            Click="Button_Click"
+                            Height="35"
+                            Padding="10,0,0,0"
+                            Margin="4,5,4,3"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Left"
+                            Command="{Binding TabButtonCommand}"
+                            CommandParameter="0"
+                            IsEnabled="False"
+                            Style="{DynamicResource TabButtonStyle}"/>
 
 
-                <Button x:Name="xn_tabbutton1"
-                        Content="Settings"
-                        FontSize="14"
-                        Click="Button_Click"
-                        Padding="10,0,0,0"
-                        VerticalContentAlignment="Center"
-                        HorizontalContentAlignment="Left"
-                        Command="{Binding TabButtonCommand}"
-                        CommandParameter="0"
-                        Style="{DynamicResource TabButtonStyle}"/>
+                    <!--  Button 2  -->
+                    <Button x:Name="xn_tabbutton2"
+                            FontSize="14"
+                            Content="Settings"
+                            Height="35"
+                            Padding="10,0,0,0"
+                            Margin="4"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Left"
+                            Click="Button_Click"
+                            Command="{Binding TabButtonCommand}"
+                            CommandParameter="1"
+                            Style="{DynamicResource TabButtonStyle}"/>
 
+                    <!--  button 3  -->
+                    <Button x:Name="xn_tabbutton3"
+                            FontSize="14"
+                            Content="etc"
+                            Height="35"
+                            Padding="10,0,0,0"
+                            Margin="4,3,4,5"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Left"
+                            Click="Button_Click"
+                            Command="{Binding TabButtonCommand}"
+                            CommandParameter="2"
+                            Style="{DynamicResource TabButtonStyle}"/>
+
+                </StackPanel>
             </Border>
 
 
-
-            <!--  Button Middle  -->
-            <Border Grid.Row="1"
+            <!--  Quick links  -->
+            <Border Grid.Row="0"
                     BorderBrush="Gray"
-                    Margin="0,0,0,0"
                     BorderThickness="0"
-                    CornerRadius="0">
+                    Background="LightGray"
+                    CornerRadius="5"
+                    VerticalAlignment="Bottom"
+                    Height="25">
 
-                <Button x:Name="xn_tabbutton2"
-                        FontSize="14"
-                        Content="Main"
-                        Padding="10,0,0,0"
-                        VerticalContentAlignment="Center"
-                        HorizontalContentAlignment="Left"
-                        Click="Button_Click"
-                        Command="{Binding TabButtonCommand}"
-                        CommandParameter="1"
-                        IsEnabled="True"
-                        Style="{DynamicResource TabButtonStyle}"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
+                    <!--  Button 1  -->
+                    <Button Content="{iconPacks:Material Kind=Github}"
+                            FontSize="14"
+                            Click="Button_Click"
+                            Height="20"
+                            Margin="0"
+                            Cursor="Hand"
+                            Style="{DynamicResource TabButtonStyle}"/>
+
+
+                    <!--  Button 2  -->
+                    <Button FontSize="14"
+                            Content="{iconPacks:Material Kind=Web}"
+                            Height="20"
+                            Click="Button_Click"
+                            Margin="15,0,0,0"
+                            Cursor="Hand"
+                            Style="{DynamicResource TabButtonStyle}"/>
+
+
+
+                </StackPanel>
             </Border>
 
-
-
-            <!--  button Right  -->
-            <Border Grid.Row="2"
-                    BorderBrush="Gray"
-                    BorderThickness="0"
-                    CornerRadius="6">
-
-                <Button x:Name="xn_tabbutton3"
-                        FontSize="14"
-                        Content="etc"
-                        Padding="10,0,0,0"
-                        VerticalContentAlignment="Center"
-                        HorizontalContentAlignment="Left"
-                        Click="Button_Click"
-                        Command="{Binding TabButtonCommand}"
-                        CommandParameter="2"
-                        Style="{DynamicResource TabButtonStyle}"/>
-
-            </Border>
         </Grid>
 
 
@@ -310,209 +382,229 @@
                         Style="{DynamicResource TabControlStyle}"
                         Grid.ColumnSpan="3"
                         SelectedIndex="{Binding SelectedIndex}"
-                        Margin="0"
+                        Margin="5,10,10,10"
                         SelectionChanged="xn_TabControl_SelectionChanged">
-                <TabItem Header="" Style="{DynamicResource TabItemStyle}">
-                    <Grid>
-                        <TextBlock Text="Home"
-                                   Foreground="{DynamicResource SecondaryTextColor}"
-                                   FontSize="20"
-                                   FontWeight="Bold"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"/>
-                    </Grid>
-                </TabItem>
 
+                <!--  tabitem1  -->
                 <TabItem Header="" Style="{DynamicResource TabItemStyle}">
+                    <!--  outGrid  -->
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="100"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="100"/>
-                        </Grid.ColumnDefinitions>
 
-                        <TextBox x:Name="xn_TextboxSearch"
-                                 Grid.Row="0"
-                                 Grid.Column="0"
-                                 Grid.ColumnSpan="2"
-                                 Margin="10"
-                                 AcceptsReturn="True"
-                                 HorizontalScrollBarVisibility="Disabled"
-                                 ScrollViewer.CanContentScroll="True"
-                                 TextWrapping="Wrap"
-                                 VerticalScrollBarVisibility="Auto"/>
-                        <Button x:Name="xn_BTsearch"
-                                Grid.Row="0"
-                                Grid.Column="2"
-                                Margin="10"
-                                Content="Search!"
-                                FontFamily="Poppins"
-                                FontWeight="Regular"
-                                Style="{DynamicResource SearchButton}"/>
+                        <!--  SearchRegion  -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Row="1" Grid.Column="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0"
-                                       FontSize="18"
-                                       FontWeight="Bold"
-                                       Foreground="Black"
-                                       TextAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="발견 목록"/>
-                            <TextBlock x:Name="xn_foundList"
-                                       Grid.Row="1"
-                                       Margin="10"
-                                       Background="#19000000"
-                                       Text=""
-                                       TextWrapping="Wrap"/>
-                        </Grid>
-
-
-                        <Grid Grid.Row="1" Grid.Column="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0"
-                                       FontSize="18"
-                                       FontWeight="Bold"
-                                       Foreground="Black"
-                                       TextAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="누락 목록"/>
-                            <TextBox x:Name="xn_NeedList"
-                                     Grid.Row="1"
+                            <TextBox x:Name="xn_TextboxSearch"
+                                     Grid.Row="0"
+                                     Grid.Column="0"
                                      Margin="10"
-                                     Background="#19000000"
-                                     IsReadOnly="True"
-                                     Opacity="1"
-                                     TextWrapping="Wrap"/>
+                                     AcceptsReturn="True"
+                                     HorizontalScrollBarVisibility="Disabled"
+                                     ScrollViewer.CanContentScroll="True"
+                                     TextWrapping="Wrap"
+                                     VerticalScrollBarVisibility="Auto"/>
+
+                            <Button x:Name="xn_BTcancel"
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Margin="10"
+                                    FontFamily="Poppins"
+                                    FontWeight="Regular"
+                                    Style="{DynamicResource CancelButton}"/>
+                            <Button x:Name="xn_BTsearch"
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Margin="10"
+                                    Visibility="Visible"
+                                    Content="{iconPacks:Ionicons Kind=SearchiOS,
+                                                                 Width=25,
+                                                                 Height=25}"
+                                    FontFamily="Poppins"
+                                    FontWeight="Regular"
+                                    Style="{DynamicResource SearchButton}"/>
+
                         </Grid>
+
+                        <!--  ResultRegion  -->
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--  foundlist  -->
+                            <Grid Grid.Row="1" Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0"
+                                           FontSize="18"
+                                           FontWeight="Bold"
+                                           Foreground="Black"
+                                           TextAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="발견 목록"/>
+                                <TextBlock x:Name="xn_foundList"
+                                           Grid.Row="1"
+                                           Margin="10"
+                                           Background="#19000000"
+                                           Text=""
+                                           TextWrapping="Wrap"/>
+                            </Grid>
+
+                            <!--  needlist  -->
+                            <Grid Grid.Row="1" Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0"
+                                           FontSize="18"
+                                           FontWeight="Bold"
+                                           Foreground="Black"
+                                           TextAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="누락 목록"/>
+
+                                <TextBox x:Name="xn_NeedList"
+                                         Grid.Row="1"
+                                         Margin="10"
+                                         Background="#19000000"
+                                         IsReadOnly="True"
+                                         Opacity="1"
+                                         TextWrapping="Wrap"/>
+
+                                <Button x:Name="xn_BTcopyit"
+                                        Grid.Row="1"
+                                        Width="58"
+                                        Height="27"
+                                        Margin="20"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Content="Copy"
+                                        Style="{DynamicResource SearchButton}"/>
+                            </Grid>
+
+                        </Grid>
+
 
                     </Grid>
                 </TabItem>
 
+                <!--  tabitem2  -->
                 <TabItem Header="" Style="{DynamicResource TabItemStyle}">
                     <Grid>
-                        <TextBox x:Name="ui_TextboxPath"
-                                 Width="609"
-                                 Margin="79,11,0,0"
-                                 HorizontalAlignment="Left"
-                                 VerticalAlignment="Top"
-                                 TextWrapping="Wrap"/>
-                        <Button x:Name="ui_BTsearch"
-                                Width="98"
-                                Height="24"
-                                Margin="692,48,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Content="Search"/>
-                        <TextBlock x:Name="ui_foundList"
-                                   Width="328"
-                                   Height="267"
-                                   Margin="22,125,0,0"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Top"
-                                   Background="#19000000"
-                                   Text=""
-                                   TextWrapping="Wrap"/>
-                        <TextBlock Width="170"
-                                   Height="33"
-                                   Margin="100,87,0,0"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Top"
-                                   FontSize="18"
-                                   FontWeight="Bold"
-                                   TextAlignment="Center"
-                                   TextWrapping="Wrap"
-                                   Text="찾은 목록"/>
-                        <TextBlock Width="170"
-                                   Height="33"
-                                   Margin="486,87,0,0"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Top"
-                                   FontSize="18"
-                                   FontWeight="Bold"
-                                   TextAlignment="Center"
-                                   TextWrapping="Wrap"><Run Text="받아야될 목"/><Run Language="ko-kr" Text="록"/></TextBlock>
-                        <TextBox x:Name="ui_NeedList"
-                                 Width="341"
-                                 Height="267"
-                                 Margin="400,125,0,0"
-                                 HorizontalAlignment="Left"
-                                 VerticalAlignment="Top"
-                                 Background="#19000000"
-                                 IsReadOnly="True"
-                                 Opacity="1"
-                                 TextWrapping="Wrap"/>
-                        <Button x:Name="ui_BTcopyit"
-                                Width="58"
-                                Height="27"
-                                Margin="674,355,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Content="Copy"/>
-                        <TextBox x:Name="ui_TextboxSearch"
-                                 Width="677"
-                                 Height="43"
-                                 Margin="11,39,0,0"
-                                 HorizontalAlignment="Left"
-                                 VerticalAlignment="Top"
-                                 AcceptsReturn="True"
-                                 HorizontalScrollBarVisibility="Disabled"
-                                 ScrollViewer.CanContentScroll="True"
-                                 TextWrapping="Wrap"
-                                 VerticalScrollBarVisibility="Auto"/>
-                        <TextBlock Width="64"
-                                   Height="21"
-                                   Margin="10,9,0,0"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Top"
-                                   FontSize="16"
-                                   TextAlignment="Center"
-                                   TextWrapping="Wrap"><Run Language="ko-kr" Text="Path"/></TextBlock>
-                        <Button x:Name="ui_BTpath"
-                                Width="98"
-                                Height="24"
-                                Margin="693,8,15,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Content="Browse"/>
-                        <CheckBox x:Name="ui_isSearchWrapping"
-                                  Margin="22,409,0,15"
-                                  HorizontalAlignment="Left"
-                                  VerticalAlignment="Top"
-                                  Content="검색시 각 항목을 ()로 감싸줍니다."/>
-                        <Button x:Name="ui_Cancell"
-                                Width="98"
-                                Height="24"
-                                Margin="692,82,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Content="Cancell"/>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+
+                            <StackPanel>
+                                <Border Margin="10,10,10,0" Style="{DynamicResource SettingsElementStyle}">
+                                    <StackPanel>
+                                        <TextBlock Text="Path"
+                                                   Foreground="Black"
+                                                   Width="64"
+                                                   Height="21"
+                                                   Margin="10,9,0,0"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Top"
+                                                   FontSize="16"
+                                                   TextAlignment="Left"
+                                                   TextWrapping="Wrap"/>
+
+                                        <Grid>
+                                            <TextBox x:Name="ui_TextboxPath"
+                                                     Width="546"
+                                                     Margin="10"
+                                                     HorizontalAlignment="Left"
+                                                     VerticalAlignment="Top"
+                                                     Padding="0,0,30,0"
+                                                     TextWrapping="Wrap"/>
+                                            <Button x:Name="ui_BTpath"
+                                                    Width="22"
+                                                    Height="18"
+                                                    Margin="534,0,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    BorderThickness="0"
+                                                    Opacity="1"
+                                                    Content="{iconPacks:Material Kind=Folder,
+                                                                                 Width=8}"
+                                                    Style="{DynamicResource TabButtonStyle}"/>
+                                        </Grid>
+
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Margin="10,0,10,0" Style="{DynamicResource SettingsElementStyle}">
+                                    <StackPanel>
+
+                                        <TextBlock FontSize="16"
+                                                   Text="Search Wrapping"
+                                                   Foreground="Black"
+                                                   Margin="10,9,0,0"/>
+
+
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0,10,0,0"
+                                                    VerticalAlignment="Center">
+                                            <CheckBox x:Name="ui_isSearchWrapping"
+                                                      Margin="10,0,0,0"
+                                                      FontSize="14"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Top"
+                                                      VerticalContentAlignment="Center"
+                                                      Style="{DynamicResource styleCustomCheckBox}">
+                                                <CheckBox.LayoutTransform>
+                                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                </CheckBox.LayoutTransform>
+                                            </CheckBox>
+
+                                            <TextBlock Text="검색시 각 항목을 ()로 감싸줍니다."
+                                                       Foreground="Black"
+                                                       Width="273"
+                                                       Margin="5,0,0,0"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="12"
+                                                       TextAlignment="Left"/>
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+
+
+
+
+
+
+
+
                         <TextBlock x:Name="ui_status"
                                    Width="172"
-                                   Margin="571,408,0,0"
+                                   Margin="472,400,0,0"
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Top"
                                    FontWeight="Normal"
                                    Foreground="#FF5A2CF0"
                                    TextAlignment="Right"
                                    TextWrapping="Wrap"/>
-                        <TextBlock Text="Home2"
-                                   Foreground="{DynamicResource SecondaryTextColor}"
-                                   FontSize="20"
-                                   FontWeight="Bold"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"/>
                     </Grid>
+                </TabItem>
+
+                <!--  tabitem3  -->
+                <TabItem Header="" Style="{DynamicResource TabItemStyle}">
+                    <Grid/>
                 </TabItem>
 
 
