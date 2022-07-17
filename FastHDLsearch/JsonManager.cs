@@ -20,6 +20,10 @@ namespace FastHDLsearch
 
         public void Load()
         {
+            if (!File.Exists(@".\config.json"))
+            {
+                Save();
+            }
             // deserialize JSON directly from a file
             using (StreamReader file = File.OpenText(@".\config.json"))
             {

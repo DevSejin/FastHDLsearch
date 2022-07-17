@@ -224,7 +224,6 @@ namespace FastHDLsearch
 
         //config
         string searchPath = "";
-        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
         JsonManager jsonManager = new JsonManager();
 
 
