@@ -347,6 +347,8 @@
                             Height="20"
                             Margin="0"
                             Cursor="Hand"
+                            Command="{Binding HyperlinkButtonCommand}"
+                            CommandParameter="https://github.com/DevSejin"
                             Style="{DynamicResource TabButtonStyle}"/>
 
 
@@ -357,6 +359,8 @@
                             Click="Button_Click"
                             Margin="15,0,0,0"
                             Cursor="Hand"
+                            Command="{Binding HyperlinkButtonCommand}"
+                            CommandParameter="https://alcyonelibrary.tistory.com/"
                             Style="{DynamicResource TabButtonStyle}"/>
 
 

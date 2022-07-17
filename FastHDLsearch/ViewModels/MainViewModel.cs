@@ -17,6 +17,7 @@ namespace FastHDLsearch.ViewModels
 
         //public RelayCommand MessageBoxCommand { get; private set; }
         public RelayCommand TabButtonCommand { get; set; }
+        public RelayCommand HyperlinkButtonCommand { get; set; }
         private int _selectedIndex = 0;
         public int SelectedIndex
         {
@@ -58,6 +59,7 @@ namespace FastHDLsearch.ViewModels
             //MessageBoxCommand = new RelayCommand(DisplayInMessageBox, MessageBoxCanUse);
             TabButtonCommand = new RelayCommand(TabButtonClicked);
             SelectedbackgroundIndex = SelectedIndex + 1;
+            HyperlinkButtonCommand = new RelayCommand(OpenHyperlink);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -79,6 +81,10 @@ namespace FastHDLsearch.ViewModels
             SelectedIndex = int.Parse(index.ToString() ?? "0");
             SelectedbackgroundIndex = SelectedIndex+1;
             
+        }
+        public void OpenHyperlink(object uri)
+        {
+            System.Diagnostics.Process.Start(new ProcessStartInfo(uri.ToString() ?? "https://null") { UseShellExecute = true });
         }
 
         public bool MessageBoxCanUse(object message)
