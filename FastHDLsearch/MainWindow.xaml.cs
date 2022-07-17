@@ -201,14 +201,9 @@ namespace FastHDLsearch
 
         #endregion
 
-        public MainWindow()
-        {
-            InitializeComponent();
-            xn_TextboxPath.Text = config.AppSettings.Settings["Path"].Value;
-            xn_isSearchWrapping.IsChecked = config.AppSettings.Settings["searchwrapping"].Value == "true";
-            DataContext = new MainViewModel();
-            tabbuttons = new Button[] { xn_tabbutton1, xn_tabbutton2, xn_tabbutton3 };
-        }
+
+        ////////////////////////////////
+
 
         private BackgroundWorker myThread = new BackgroundWorker()
         {
@@ -230,8 +225,28 @@ namespace FastHDLsearch
         //config
         string searchPath = "";
         Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        JsonManager jsonManager = new JsonManager();
 
 
+        private SolidColorBrush BrushFromColorCode(string colorCode)
+        {
+            SolidColorBrush colorBrush = new SolidColorBrush();
+            colorBrush.Color = (Color)ColorConverter.ConvertFromString(colorCode);
+            return colorBrush;
+        }
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            jsonManager.Load();
+            //xn_TextboxPath.Text = config.AppSettings.Settings["Path"].Value;
+            xn_TextboxPath.Text = jsonManager.configfile.path;
+            //xn_isSearchWrapping.IsChecked = config.AppSettings.Settings["searchwrapping"].Value == "true";
+            xn_isSearchWrapping.IsChecked = jsonManager.configfile.searchwrapping;
+
+            DataContext = new MainViewModel();
+            tabbuttons = new Button[] { xn_tabbutton1, xn_tabbutton2, xn_tabbutton3 };
+        }
 
         protected override void OnInitialized(EventArgs e)
         {
@@ -260,7 +275,7 @@ namespace FastHDLsearch
 
         private void MyThread_Disposed(object? sender, EventArgs e)
         {
-
+            MessageBox.Show("Disposed");
             throw new NotImplementedException();
         }
 
@@ -293,7 +308,12 @@ namespace FastHDLsearch
                 }
 
                 Everything_SetSearchW(finalSearchText + " " + searchPath);
-                Everything_QueryW(true);
+                bool success = Everything_QueryW(true);
+                if (success == false)
+                {
+                    MessageBox.Show("searchFail");
+                    return;
+                }
 
                 //Debug.Write(s);
                 uint resultCount = Everything_GetNumResults();
@@ -337,13 +357,6 @@ namespace FastHDLsearch
                         );
         }
 
-        private SolidColorBrush BrushFromColorCode(string colorCode)
-        {
-            SolidColorBrush colorBrush = new SolidColorBrush();
-            colorBrush.Color = (Color)ColorConverter.ConvertFromString(colorCode);
-            return colorBrush;
-        }
-
         //작업완료
         private void myThread_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
@@ -357,8 +370,9 @@ namespace FastHDLsearch
                 xn_status.Foreground = BrushFromColorCode("#038C73");
             }
 
-            xn_BTsearch.Content = "Search";
+            //xn_BTsearch.Content = "Search";
             xn_BTsearch.IsEnabled = true;
+            xn_BTsearch.Visibility = Visibility.Visible;
 
         }
 
@@ -366,8 +380,9 @@ namespace FastHDLsearch
         private void BTsearch_Click(object sender, RoutedEventArgs e)
         {
             //Debug.WriteLine("Search button clicked");
-            xn_BTsearch.Content = "...";
+            //xn_BTsearch.Content = "...";
             xn_BTsearch.IsEnabled = false;
+            xn_BTsearch.Visibility = Visibility.Collapsed;
             xn_status.Text = "작업중...";
             xn_status.Foreground = BrushFromColorCode("#0487D9");
 
@@ -437,17 +452,21 @@ namespace FastHDLsearch
 
         private void TextboxPath_TextChanged(object sender, TextChangedEventArgs e)
         {
-            config.AppSettings.Settings["path"].Value = xn_TextboxPath.Text;
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
+            //config.AppSettings.Settings["path"].Value = xn_TextboxPath.Text;
+            //config.Save(ConfigurationSaveMode.Modified);
+            //ConfigurationManager.RefreshSection("appSettings");
+            jsonManager.configfile.path = xn_TextboxPath.Text;
+            jsonManager.Save();
         }
 
 
         private void isSearchWrapping_Clicked(object sender, RoutedEventArgs e)
         {
-            config.AppSettings.Settings["searchwrapping"].Value = xn_isSearchWrapping.IsChecked.ToString()?.ToLower();
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
+            //config.AppSettings.Settings["searchwrapping"].Value = xn_isSearchWrapping.IsChecked.ToString()?.ToLower();
+            //config.Save(ConfigurationSaveMode.Modified);
+            //ConfigurationManager.RefreshSection("appSettings");
+            jsonManager.configfile.searchwrapping = xn_isSearchWrapping.IsChecked ?? true;
+            jsonManager.Save();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
