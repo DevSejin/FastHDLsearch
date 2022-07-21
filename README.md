@@ -5,3 +5,8 @@
   
 ## 요구사항:
 - [Everything](https://www.voidtools.com/ko-kr/downloads/) 이 백그라운드 또는 포그라운드에서실행중이어야 함.  
+
+
+## USED:
+- [MahApps IconPacks](https://github.com/MahApps/MahApps.Metro.IconPacks)
+- [Everything SDK](https://www.voidtools.com/ko-kr/support/everything/sdk/)
